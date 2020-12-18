@@ -1,13 +1,8 @@
 import os
-from dotenv import load_dotenv
 import requests
+from dotenv import load_dotenv
 from twilio.rest import Client
-# from api_parameters import api_key_open_weather, twilio_sid, twilio_token, twilio_number, phone_number
 load_dotenv()
-
-# os.environ["TEST"] = "TEST_VAL"
-# print(os.getenv("TEST"))
-# print(os.getenv("MY_VAR"))
 
 
 # Functions
@@ -18,7 +13,6 @@ def get_weather_data(lat, lng):
         "lon": lng,
         "exclude": "current,minutely,daily",
         "appid": os.getenv("api_key_open_weather"),
-        # "appid": api_key_open_weather,
     }
     response = requests.get(url=api_open_weather, params=parameters)
     response.raise_for_status()
@@ -30,7 +24,7 @@ def check_hour_rain(weather_data):
     for hour in weather_data:
         hour_weather = hour["weather"]
         for condition in hour_weather:  # if multiple weather conditions in hour
-            # weather id; https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
+            # weather condition ids; https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
             if condition["id"] < 700:
                 return True
 
@@ -47,9 +41,9 @@ def send_rain_message():
 
 
 # Main
-# weather_data = get_weather_data(lat=38.880470, lng=-77.301872)
-weather_data = get_weather_data(
-    lat=40.760780, lng=-111.891045)  # test location with rain
+weather_data = get_weather_data(lat=38.880470, lng=-77.301872)
+# weather_data = get_weather_data(
+#     lat=40.760780, lng=-111.891045)  # test location with rain
 weather_next_12_hours = weather_data["hourly"][:12]
 
 if check_hour_rain(weather_next_12_hours):
