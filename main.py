@@ -1,5 +1,6 @@
 import requests
-from api_keys import api_key_open_weather
+from twilio.rest import Client
+from api_parameters import api_key_open_weather
 
 
 # Functions
