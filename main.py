@@ -1,6 +1,6 @@
 import requests
 from twilio.rest import Client
-from api_parameters import api_key_open_weather
+from api_parameters import api_key_open_weather, twilio_sid, twilio_token, twilio_number, phone_number
 
 
 # Functions
@@ -27,6 +27,17 @@ def check_hour_rain(weather_data):
                 return True
 
 
+def send_rain_message():
+    client = Client(twilio_sid, twilio_token)
+    message = client.messages \
+                    .create(
+                        body="Looks like rain's in the 12 hour forcast, suggest grabbing an umbrella 🌧",
+                        from_=twilio_number,
+                        to=phone_number
+                    )
+    print(message.status)
+
+
 # Main
 # weather_data = get_weather_data(lat=38.880470, lng=-77.301872)
 weather_data = get_weather_data(
@@ -34,4 +45,5 @@ weather_data = get_weather_data(
 weather_next_12_hours = weather_data["hourly"][:12]
 
 if check_hour_rain(weather_next_12_hours):
-    print("Grab an umbrella")
+    send_rain_message()
+    # print("Grab an umbrella")
