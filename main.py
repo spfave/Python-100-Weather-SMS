@@ -39,9 +39,9 @@ def send_rain_message():
 
 
 # Main
-# weather_data = get_weather_data(lat=38.880470, lng=-77.301872)
-weather_data = get_weather_data(
-    lat=40.760780, lng=-111.891045)  # test location with rain
+weather_data = get_weather_data(lat=38.880470, lng=-77.301872)
+# weather_data = get_weather_data(
+#     lat=40.760780, lng=-111.891045)  # test location with rain
 weather_next_12_hours = weather_data["hourly"][:12]
 
 if check_hour_rain(weather_next_12_hours):
